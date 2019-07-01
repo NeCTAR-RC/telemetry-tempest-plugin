@@ -22,7 +22,7 @@ TEST_DIR = os.path.join(os.path.dirname(__file__),
 
 
 class TestTelemetryIntegration(manager.ScenarioTest):
-    credentials = ['admin', 'primary']
+    credentials = ['primary']
 
     TIMEOUT_SCALING_FACTOR = 5
 
@@ -74,13 +74,11 @@ class TestTelemetryIntegration(manager.ScenarioTest):
             return endpoints[0]['endpoints'][0][endpoint_type]
 
     def _prep_test(self, filename):
-        admin_auth = self.os_admin.auth_provider.get_auth()
         auth = self.os_primary.auth_provider.get_auth()
         networks = self.os_primary.networks_client.list_networks(
             **{'router:external': False, 'fields': 'id'})['networks']
 
         os.environ.update({
-            "ADMIN_TOKEN": admin_auth[0],
             "USER_TOKEN": auth[0],
             "CEILOMETER_METRIC_NAME":
             config.CONF.telemetry.alarm_metric_name,
