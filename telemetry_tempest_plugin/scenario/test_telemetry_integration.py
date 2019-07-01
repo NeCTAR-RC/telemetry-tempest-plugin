@@ -29,8 +29,7 @@ class TestTelemetryIntegration(manager.ScenarioTest):
     @classmethod
     def skip_checks(cls):
         super(TestTelemetryIntegration, cls).skip_checks()
-        for name in ["aodh", "gnocchi", "nova", "heat",
-                     "panko", "ceilometer", "glance"]:
+        for name in ["aodh", "gnocchi", "nova", "heat", "ceilometer"]:
             cls._check_service(name)
 
     @classmethod
@@ -76,8 +75,8 @@ class TestTelemetryIntegration(manager.ScenarioTest):
     def _prep_test(self, filename):
         auth = self.os_primary.auth_provider.get_auth()
         networks = self.os_primary.networks_client.list_networks(
-            **{'router:external': False, 'fields': 'id'})['networks']
-
+            **{'name': config.CONF.compute.fixed_network_name,
+               'fields': 'id'})['networks']
         os.environ.update({
             "USER_TOKEN": auth[0],
             "CEILOMETER_METRIC_NAME":
@@ -88,11 +87,10 @@ class TestTelemetryIntegration(manager.ScenarioTest):
             "AODH_GRANULARITY": str(config.CONF.telemetry.alarm_granularity),
             "AODH_SERVICE_URL": self._get_endpoint(auth, "alarming_plugin"),
             "GNOCCHI_SERVICE_URL": self._get_endpoint(auth, "metric"),
-            "PANKO_SERVICE_URL": self._get_endpoint(auth, "event"),
             "HEAT_SERVICE_URL": self._get_endpoint(auth, "heat_plugin"),
             "NOVA_SERVICE_URL": self._get_endpoint(auth, "compute"),
             "GLANCE_SERVICE_URL": self._get_endpoint(auth, "image"),
-            "GLANCE_IMAGE_NAME": self.glance_image_create(),
+            "GLANCE_IMAGE_NAME": config.CONF.compute.image_ref,
             "NOVA_FLAVOR_REF": config.CONF.compute.flavor_ref,
             "NEUTRON_NETWORK": networks[0].get('id'),
         })
