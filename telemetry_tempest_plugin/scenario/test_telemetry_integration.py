@@ -13,6 +13,7 @@
 import os
 
 from tempest import config
+from tempest.lib.common.utils import data_utils
 from tempest.scenario import manager
 
 from telemetry_tempest_plugin.scenario import utils
@@ -93,6 +94,7 @@ class TestTelemetryIntegration(manager.ScenarioTest):
             "GLANCE_IMAGE_NAME": config.CONF.compute.image_ref,
             "NOVA_FLAVOR_REF": config.CONF.compute.flavor_ref,
             "NEUTRON_NETWORK": networks[0].get('id'),
+            "STACK_NAME": data_utils.rand_name('telemetry'),
         })
 
 
