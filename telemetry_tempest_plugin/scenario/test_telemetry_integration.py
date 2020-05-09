@@ -60,7 +60,7 @@ class TestTelemetryIntegration(manager.ScenarioTest):
                 raise Exception("%s interface not found for endpoint %s" %
                                 (endpoint_type,
                                  opt_section.catalog_type))
-            return endpoints[0]
+            return endpoints[0].rstrip('/')
 
         else:
             if not endpoint_type.endswith("URL"):
@@ -71,7 +71,7 @@ class TestTelemetryIntegration(manager.ScenarioTest):
             if not endpoints:
                 raise Exception("%s endpoint not found" %
                                 opt_section.catalog_type)
-            return endpoints[0]['endpoints'][0][endpoint_type]
+            return endpoints[0]['endpoints'][0][endpoint_type].rstrip('/')
 
     def _prep_test(self, filename):
         auth = self.os_primary.auth_provider.get_auth()
