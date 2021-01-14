@@ -95,6 +95,7 @@ class TestTelemetryIntegration(manager.ScenarioTest):
             "NOVA_FLAVOR_REF": config.CONF.compute.flavor_ref,
             "NEUTRON_NETWORK": networks[0].get('id'),
             "STACK_NAME": data_utils.rand_name('telemetry'),
+            "AVAILABILITY_ZONE": config.CONF.compute.availability_zone,
         })
 
 

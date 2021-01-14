@@ -13,6 +13,7 @@
                         "type": "OS::Nova::Server",
                         "properties": {
                             "networks": [{ "network": "$ENVIRON['NEUTRON_NETWORK']" }],
+                            "availability_zone": "$ENVIRON['AVAILABILITY_ZONE']",
                             "flavor": "$ENVIRON['NOVA_FLAVOR_REF']",
                             "image": "$ENVIRON['GLANCE_IMAGE_NAME']",
                             "metadata": {
